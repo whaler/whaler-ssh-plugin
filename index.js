@@ -11,7 +11,7 @@ async function exports (whaler) {
         const vars = await whaler.emit('vars', {});
         if (vars['SSH_AUTH_SOCK']) {
             const volumesFrom = ctx.options['HostConfig']['VolumesFrom'] || [];
-            volumesFrom.push('whaler_ssh');
+            volumesFrom.push(process.env.WHALER_SSH_PLUGIN_CONTAINER || 'ssh-agent');
             ctx.options['HostConfig']['VolumesFrom'] = volumesFrom;
         }
     });
