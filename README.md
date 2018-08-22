@@ -15,7 +15,7 @@ $ whaler plugins:install https://github.com/whaler/whaler-ssh-plugin
 ```sh
 $ whaler vars:set SSH_AUTH_SOCK /.ssh/agent
 
-# Bind you local `ssh-agent` socket
+# Bind your local `ssh-agent` socket
 $ docker create -v $SSH_AUTH_SOCK:/.ssh/agent --name ssh-agent cravler/ssh-agent /bin/true
 
 # Or start `ssh-agent`
