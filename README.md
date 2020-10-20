@@ -15,13 +15,13 @@ $ whaler plugins:install https://github.com/whaler/whaler-ssh-plugin
 ```sh
 $ whaler vars:set SSH_AUTH_SOCK /.ssh/agent
 
-# Bind your local `ssh-agent` socket
-$ docker create -v $SSH_AUTH_SOCK:/.ssh/agent --name ssh-agent cravler/ssh-agent /bin/true
+# Start `ssh-agent` and add your SSH private key
+$ docker run -d --restart always --env SSH_ADD=/id_rsa --name ssh-agent cravler/ssh-agent
+$ docker cp $HOME/.ssh/id_rsa ssh-agent:/id_rsa
+$ docker restart ssh-agent
 
-# Or start `ssh-agent`
-$ docker run -d --name ssh-agent cravler/ssh-agent
-# And add your SSH private key to the `ssh-agent`
-$ docker run -it --rm --volumes-from ssh-agent -v $HOME:$HOME cravler/ssh-agent ssh-add $HOME/.ssh/id_rsa
+# Or bind your local `ssh-agent` socket. NB! do not work, if SSH_AUTH_SOCK changes
+$ docker create -v $SSH_AUTH_SOCK:/.ssh/agent --name ssh-agent cravler/ssh-agent /bin/true
 ```
 
 ## License
